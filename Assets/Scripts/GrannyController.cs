@@ -13,6 +13,15 @@ public class GrannyController : MonoBehaviour
     [SerializeField] private Transform cam;
     Vector2 moveInput;
 
+    // Check for in the air
+    [SerializeField] Collider[] col;
+    public Transform groundCheck;
+    public LayerMask thisIsGround;
+    public bool isGrounded;
+
+    // When in Shooter Mode
+    public bool zoomedIn;
+
     private void Awake()
     {
         _inputActions = new Granny_InputActions();
@@ -36,7 +45,19 @@ public class GrannyController : MonoBehaviour
 
     private void Update()
     {
+        col = Physics.OverlapSphere(groundCheck.position, .2f, thisIsGround);
+        if (col.Length > 0) isGrounded = true;
+        else isGrounded = false;
+
         moveInput = _inputActions.Player.Move.ReadValue<Vector2>();
+
+        if (_inputActions.Player.Jump.triggered && isGrounded)
+            PlayerJump();
+
+        // Set Shooter Mode
+        if (_inputActions.Player.Aim.IsPressed())
+            zoomedIn = true;
+        else zoomedIn = false;
     }
 
     private void FixedUpdate()
@@ -56,5 +77,10 @@ public class GrannyController : MonoBehaviour
 
             rb.MovePosition(transform.position + moveDirection * moveSpeed * Time.fixedDeltaTime);
         }
+    }
+
+    void PlayerJump()
+    {
+        rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
     }
 }
