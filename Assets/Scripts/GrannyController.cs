@@ -11,6 +11,7 @@ public class GrannyController : MonoBehaviour
     [SerializeField] private float turnSmoothVelocity;
     [SerializeField] Rigidbody rb;
     [SerializeField] private Transform cam;
+    [SerializeField] Animator _anim;
     Vector2 moveInput;
     Vector2 aimInput;
 
@@ -41,6 +42,7 @@ public class GrannyController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         cam = Camera.main.transform;
+        _anim = GetComponentInChildren<Animator>();
     }
 
     private void OnEnable()
@@ -74,11 +76,19 @@ public class GrannyController : MonoBehaviour
         {
             transform.rotation = Quaternion.Euler(0, cam.eulerAngles.y, 0);
         }
+
+        // Animation States
+        _anim.SetBool("Ground", isGrounded);
+        _anim.SetFloat("VSpeed", rb.linearVelocity.y, .5f, Time.deltaTime);
+        _anim.SetBool("Zoomed", zoomedIn);
+        _anim.SetFloat("XDirection", moveInput.x, .1f, Time.deltaTime);
+        _anim.SetFloat("YDirection", moveInput.y, .1f, Time.deltaTime);
     }
 
     private void FixedUpdate()
     {
         Vector3 moveDirection = new Vector3(moveInput.x, 0, moveInput.y).normalized;
+        _anim.SetFloat("MoveSpeed", moveDirection.magnitude, 0.075f, Time.deltaTime);
 
         if (moveDirection != Vector3.zero)
         {
@@ -100,9 +110,10 @@ public class GrannyController : MonoBehaviour
         {
             yAxis.Value = aimInput.y * playerLookSpeed * Time.deltaTime;
             rotationY += yAxis.Value;
+            rotationY = Mathf.Clamp(rotationY, -55, 55);
             camTarget.localEulerAngles = new Vector3(-rotationY, 0f, 0f);
 
-            rotationX = aimInput.x * playerRotationSpeed * Time.deltaTime;
+            rotationX = aimInput.x * playerRotationSpeed * Time.fixedDeltaTime;
             transform.localEulerAngles = new Vector3(0, transform.localEulerAngles.y +  rotationX, 0); 
         }
     }

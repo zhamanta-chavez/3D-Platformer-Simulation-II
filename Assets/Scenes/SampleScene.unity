@@ -330,7 +330,7 @@ Transform:
   m_GameObject: {fileID: 65479857}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.1, z: 0}
   m_LocalScale: {x: 30, y: 0.1, z: 30}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1023,11 +1023,38 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &541584553 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: f9c1746cae80b7444a40d905533c1157, type: 3}
+  m_PrefabInstance: {fileID: 1615299713}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &813564076 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: f9c1746cae80b7444a40d905533c1157, type: 3}
   m_PrefabInstance: {fileID: 1615299713}
   m_PrefabAsset: {fileID: 0}
+--- !u!95 &813564077
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 541584553}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a330220aef40c0942b0edf1db9270992, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -1241,7 +1268,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f9c1746cae80b7444a40d905533c1157, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 813564077}
   m_SourcePrefab: {fileID: 100100000, guid: f9c1746cae80b7444a40d905533c1157, type: 3}
 --- !u!1 &1813564749
 GameObject:
@@ -1280,6 +1310,7 @@ MonoBehaviour:
   turnSmoothVelocity: 0
   rb: {fileID: 0}
   cam: {fileID: 0}
+  _anim: {fileID: 0}
   col: []
   groundCheck: {fileID: 2088319768}
   thisIsGround:
