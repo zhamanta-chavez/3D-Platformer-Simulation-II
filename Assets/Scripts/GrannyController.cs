@@ -12,6 +12,7 @@ public class GrannyController : MonoBehaviour
     [SerializeField] Rigidbody rb;
     [SerializeField] private Transform cam;
     Vector2 moveInput;
+    Vector2 aimInput;
 
     // Check for in the air
     [SerializeField] Collider[] col;
@@ -21,10 +22,19 @@ public class GrannyController : MonoBehaviour
 
     // When in Shooter Mode
     public bool zoomedIn;
+    public float rotationX;
+    public float rotationY;
+    public float playerRotationSpeed = 15f;
+    public float playerLookSpeed = 50f;
+    public Transform camTarget;
+    public Unity.Cinemachine.InputAxis yAxis;
 
     private void Awake()
     {
         _inputActions = new Granny_InputActions();
+
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = true;
     }
  
     void Start()
@@ -50,6 +60,7 @@ public class GrannyController : MonoBehaviour
         else isGrounded = false;
 
         moveInput = _inputActions.Player.Move.ReadValue<Vector2>();
+        aimInput = _inputActions.Player.Camera.ReadValue<Vector2>();
 
         if (_inputActions.Player.Jump.triggered && isGrounded)
             PlayerJump();
@@ -58,6 +69,11 @@ public class GrannyController : MonoBehaviour
         if (_inputActions.Player.Aim.IsPressed())
             zoomedIn = true;
         else zoomedIn = false;
+
+        if (_inputActions.Player.Aim.triggered && isGrounded)
+        {
+            transform.rotation = Quaternion.Euler(0, cam.eulerAngles.y, 0);
+        }
     }
 
     private void FixedUpdate()
@@ -70,12 +86,24 @@ public class GrannyController : MonoBehaviour
             {
                 float targetAngle = Mathf.Atan2(moveDirection.x, moveDirection.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
                 float _angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothing);
-                transform.rotation = Quaternion.Euler(0f, _angle, 0f);
+
+                if(!zoomedIn)
+                    transform.rotation = Quaternion.Euler(0f, _angle, 0f);
 
                 Vector3 moveDirCam = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
             }
 
             rb.MovePosition(transform.position + moveDirection * moveSpeed * Time.fixedDeltaTime);
+        }
+
+        if (zoomedIn)
+        {
+            yAxis.Value = aimInput.y * playerLookSpeed * Time.deltaTime;
+            rotationY += yAxis.Value;
+            camTarget.localEulerAngles = new Vector3(-rotationY, 0f, 0f);
+
+            rotationX = aimInput.x * playerRotationSpeed * Time.deltaTime;
+            transform.localEulerAngles = new Vector3(0, transform.localEulerAngles.y +  rotationX, 0); 
         }
     }
 

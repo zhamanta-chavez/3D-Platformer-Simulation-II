@@ -501,6 +501,7 @@ GameObject:
   - component: {fileID: 330585544}
   - component: {fileID: 330585547}
   - component: {fileID: 330585548}
+  - component: {fileID: 330585549}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -650,8 +651,8 @@ MonoBehaviour:
     Enabled: 0
     DefaultMode: 2
   DefaultBlend:
-    Style: 1
-    Time: 2
+    Style: 6
+    Time: 0.2
     CustomCurve:
       serializedVersion: 2
       m_Curve: []
@@ -659,6 +660,20 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
   CustomBlends: {fileID: 0}
+--- !u!114 &330585549
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 330585543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9b6b1b8376b36f4c96aaf9766b858bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shootCam: {fileID: 126988279}
+  platformerCam: {fileID: 418066536}
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -1242,7 +1257,7 @@ GameObject:
   - component: {fileID: 1813564750}
   m_Layer: 0
   m_Name: GrannyPlayer
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1272,6 +1287,21 @@ MonoBehaviour:
     m_Bits: 64
   isGrounded: 0
   zoomedIn: 0
+  rotationX: 0
+  rotationY: 0
+  playerRotationSpeed: 15
+  playerLookSpeed: 50
+  camTarget: {fileID: 257059141}
+  yAxis:
+    Value: 0
+    Center: 0
+    Range: {x: 0, y: 0}
+    Wrap: 0
+    Recentering:
+      Enabled: 0
+      Wait: 0
+      Time: 0
+    Restrictions: 0
 --- !u!54 &1813564751
 Rigidbody:
   m_ObjectHideFlags: 0
