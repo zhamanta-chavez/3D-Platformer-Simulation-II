@@ -64,7 +64,7 @@ public class GrannyController : MonoBehaviour
         moveInput = _inputActions.Player.Move.ReadValue<Vector2>();
         aimInput = _inputActions.Player.Camera.ReadValue<Vector2>();
 
-        if (_inputActions.Player.Jump.triggered && isGrounded)
+        if (_inputActions.Player.Jump.triggered && isGrounded && !zoomedIn)
             PlayerJump();
 
         // Set Shooter Mode
