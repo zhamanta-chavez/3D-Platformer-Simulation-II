@@ -1201,6 +1201,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &524942322
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 524942323}
+  m_Layer: 0
+  m_Name: BulletSpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 419385456094870383, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &524942323
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 524942322}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.034, y: 1.373, z: 0.827}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1813564753}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &541584553 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: f9c1746cae80b7444a40d905533c1157, type: 3}
@@ -1662,6 +1693,7 @@ GameObject:
   - component: {fileID: 1813564752}
   - component: {fileID: 1813564751}
   - component: {fileID: 1813564750}
+  - component: {fileID: 1813564754}
   m_Layer: 0
   m_Name: GrannyPlayer
   m_TagString: Player
@@ -1777,8 +1809,24 @@ Transform:
   - {fileID: 1379166272}
   - {fileID: 257059141}
   - {fileID: 2088319768}
+  - {fileID: 524942323}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1813564754
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1813564749}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 876ee587938ffc44796a77c5d0b80685, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bulletReg: {fileID: 32750728410456883, guid: 9048fed3a084d094ebe7b14ac9a1eadf, type: 3}
+  bulletCharged: {fileID: 436553434704944691, guid: 70caa2baef6948a4db054654a152460e, type: 3}
+  bulletSpawn: {fileID: 524942323}
 --- !u!1 &2088319767
 GameObject:
   m_ObjectHideFlags: 0
