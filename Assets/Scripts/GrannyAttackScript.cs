@@ -5,11 +5,17 @@ public class GrannyAttackScript : MonoBehaviour
     Granny_InputActions _actions;
     GrannyController _controller;
 
+    public float bulletSpeed = 1500f;
+
     [Header("Bullet Prefab")]
     public Rigidbody bulletReg;
     public Rigidbody bulletCharged;
 
     public Transform bulletSpawn;
+
+    [Header("Aim")]
+    public LayerMask aimColliderMask = new LayerMask();
+    public Transform aimDebug;
 
     private void Awake()
     {
@@ -40,6 +46,15 @@ public class GrannyAttackScript : MonoBehaviour
             else
                 AttackMelee();
         }
+
+        Vector2 screenCenterPoint = new Vector2(Screen.width / 2, Screen.height / 2);
+
+        Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
+        if (Physics.Raycast(ray, out RaycastHit rayCastHit, 999f, aimColliderMask))
+        {
+            aimDebug.position = rayCastHit.point;   
+            bulletSpawn.LookAt(rayCastHit.point);
+        }
     }
 
     public void AttackMelee()
@@ -51,6 +66,6 @@ public class GrannyAttackScript : MonoBehaviour
     {
         Rigidbody _shot;
         _shot = Instantiate(bulletReg, bulletSpawn.position, bulletSpawn.rotation) as Rigidbody;
-        _shot.AddForce(bulletSpawn.forward * 500, ForceMode.Force);
+        _shot.AddForce(bulletSpawn.forward * bulletSpeed, ForceMode.Force);
     }
 }
