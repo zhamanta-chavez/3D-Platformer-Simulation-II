@@ -250,6 +250,17 @@ public partial class @Granny_InputActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""97739a33-4eb0-4f4c-b8fc-33a4beea5058"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""11daf10e-311b-42a7-aa67-9f8bc24407ab"",
                     ""path"": ""<Mouse>/rightButton"",
                     ""interactions"": """",
