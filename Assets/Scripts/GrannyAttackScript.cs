@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
+using System.Collections;
 
 public class GrannyAttackScript : MonoBehaviour
 {
@@ -24,6 +25,9 @@ public class GrannyAttackScript : MonoBehaviour
     public float chargeGauge;
     [SerializeField] private bool isCharging;
 
+    [Header("Melee")]
+    public GameObject hitSphere;
+
     private void Awake()
     {
         _actions = new Granny_InputActions();
@@ -31,7 +35,8 @@ public class GrannyAttackScript : MonoBehaviour
 
     private void Start()
     {
-        _controller = GetComponent<GrannyController>(); 
+        _controller = GetComponent<GrannyController>();
+        hitSphere.SetActive(false);
     }
 
     private void OnEnable()
@@ -51,7 +56,7 @@ public class GrannyAttackScript : MonoBehaviour
             if (_controller.zoomedIn)
                 AttackShoot();
             else
-                AttackMelee();
+                StartCoroutine(AttackMelee());
         }
 
         if (_actions.Player.Attack.IsPressed())
@@ -85,9 +90,11 @@ public class GrannyAttackScript : MonoBehaviour
         }
     }
 
-    public void AttackMelee()
+    IEnumerator AttackMelee()
     {
-
+        hitSphere.SetActive(true);
+        yield return new WaitForSeconds(.5f);
+        hitSphere.SetActive(false);
     }
 
     public void AttackShoot()
