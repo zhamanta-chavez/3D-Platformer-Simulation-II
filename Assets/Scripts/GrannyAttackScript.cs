@@ -6,6 +6,7 @@ public class GrannyAttackScript : MonoBehaviour
 {
     Granny_InputActions _actions;
     GrannyController _controller;
+    [SerializeField] Animator _anim;
 
     public float bulletSpeed = 1500f;
 
@@ -27,16 +28,22 @@ public class GrannyAttackScript : MonoBehaviour
 
     [Header("Melee")]
     public GameObject hitSphere;
+    public float meleeTime = .5f;
+    public float comboTimer = .75f;
+    public int comboID = 1;
+    public bool canMelee;
 
     private void Awake()
     {
         _actions = new Granny_InputActions();
+        _anim = GetComponentInChildren<Animator>();   
     }
 
     private void Start()
     {
         _controller = GetComponent<GrannyController>();
         hitSphere.SetActive(false);
+        canMelee = true;
     }
 
     private void OnEnable()
@@ -55,7 +62,7 @@ public class GrannyAttackScript : MonoBehaviour
         {
             if (_controller.zoomedIn)
                 AttackShoot();
-            else
+            else if (canMelee)
                 StartCoroutine(AttackMelee());
         }
 
@@ -64,6 +71,12 @@ public class GrannyAttackScript : MonoBehaviour
         else isCharging = false;
 
         if (isCharging) chargeGauge += Time.deltaTime;
+        comboTimer -= Time.deltaTime;
+        if (comboTimer < 0)
+        {
+            comboTimer = 0;
+            comboID = 1;
+        }
 
         if (_actions.Player.Attack.WasReleasedThisFrame())
         {
@@ -92,8 +105,29 @@ public class GrannyAttackScript : MonoBehaviour
 
     IEnumerator AttackMelee()
     {
+        if (comboID == 1)
+        {
+            comboID = 2;
+            _anim.SetTrigger("Swing1");
+            comboTimer = 1;
+        }
+        else if (comboID == 2 && comboTimer > 0)
+        {
+            comboID = 3;
+            _anim.SetTrigger("Swing2");
+            comboTimer = 1;
+        }
+
+        else if (comboID == 3 && comboTimer > 0)
+        {
+            comboID = 1;
+            _anim.SetTrigger("Swing3");
+        }
+
+        canMelee = false;
         hitSphere.SetActive(true);
-        yield return new WaitForSeconds(.5f);
+        yield return new WaitForSeconds(meleeTime);
+        canMelee = true;
         hitSphere.SetActive(false);
     }
 
