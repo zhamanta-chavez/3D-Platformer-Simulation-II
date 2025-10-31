@@ -6,6 +6,7 @@ TagManager:
   tags:
   - GroundCheck
   - HitSphere
+  - Enemy
   layers:
   - Default
   - TransparentFX

@@ -3,6 +3,7 @@ using UnityEngine;
 public class GrannyController : MonoBehaviour
 {
     Granny_InputActions _inputActions;
+    GrannyAttackScript _attackScript;
 
     public float moveSpeed = 4f;
     public float jumpForce = 12f;
@@ -43,6 +44,7 @@ public class GrannyController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         cam = Camera.main.transform;
         _anim = GetComponentInChildren<Animator>();
+        _attackScript = GetComponent<GrannyAttackScript>();
     }
 
     private void OnEnable()
@@ -90,20 +92,23 @@ public class GrannyController : MonoBehaviour
         Vector3 moveDirection = new Vector3(moveInput.x, 0, moveInput.y).normalized;
         _anim.SetFloat("MoveSpeed", moveDirection.magnitude, 0.075f, Time.deltaTime);
 
-        if (moveDirection != Vector3.zero)
+        if (_attackScript.canMelee)
         {
-            if (moveDirection.magnitude >= .1f)
+            if (moveDirection != Vector3.zero)
             {
-                float targetAngle = Mathf.Atan2(moveDirection.x, moveDirection.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
-                float _angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothing);
+                if (moveDirection.magnitude >= .1f)
+                {
+                    float targetAngle = Mathf.Atan2(moveDirection.x, moveDirection.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
+                    float _angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothing);
 
-                if(!zoomedIn)
-                    transform.rotation = Quaternion.Euler(0f, _angle, 0f);
+                    if (!zoomedIn)
+                        transform.rotation = Quaternion.Euler(0f, _angle, 0f);
 
-                Vector3 moveDirCam = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+                    Vector3 moveDirCam = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+                }
+
+                rb.MovePosition(transform.position + moveDirection * moveSpeed * Time.fixedDeltaTime);
             }
-
-            rb.MovePosition(transform.position + moveDirection * moveSpeed * Time.fixedDeltaTime);
         }
 
         if (zoomedIn)

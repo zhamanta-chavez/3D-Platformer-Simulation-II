@@ -125,10 +125,12 @@ public class GrannyAttackScript : MonoBehaviour
         }
 
         canMelee = false;
+        yield return new WaitForSeconds(.25f);
         hitSphere.SetActive(true);
+        yield return new WaitForSeconds(.1f);
+        hitSphere.SetActive(false);
         yield return new WaitForSeconds(meleeTime);
         canMelee = true;
-        hitSphere.SetActive(false);
     }
 
     public void AttackShoot()
