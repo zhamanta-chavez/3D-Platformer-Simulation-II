@@ -105,9 +105,8 @@ public class GrannyController : MonoBehaviour
                         transform.rotation = Quaternion.Euler(0f, _angle, 0f);
 
                     Vector3 moveDirCam = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+                    rb.MovePosition(transform.position + moveDirCam * moveSpeed * Time.fixedDeltaTime);
                 }
-
-                rb.MovePosition(transform.position + moveDirection * moveSpeed * Time.fixedDeltaTime);
             }
         }
 

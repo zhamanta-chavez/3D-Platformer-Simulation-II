@@ -20,12 +20,18 @@ public class EnemyHealthScript : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "HitSphere") StartCoroutine(TakeDamage());
+        if (other.gameObject.tag == "HitSphere") StartCoroutine(TakeDamage(1));
+        if (other.gameObject.tag == "RegularBullet")
+        {
+            StartCoroutine(TakeDamage(2));
+            Destroy(other.gameObject);
+        }
+        if (other.gameObject.tag == "ChargedBullet") StartCoroutine(TakeDamage(20));
     }
 
-    IEnumerator TakeDamage()
+    IEnumerator TakeDamage(int damage)
     {
-        enemyHealth--;
+        enemyHealth -= damage;
         if (enemyHealth > 0)
         {
             transform.DOPunchPosition(Vector3.forward, .2f, 15);

@@ -28,10 +28,12 @@ public class GrannyAttackScript : MonoBehaviour
 
     [Header("Melee")]
     public GameObject hitSphere;
-    public float meleeTime = .5f;
+    public float meleeTimer = .5f;
     public float comboTimer = .75f;
     public int comboID = 1;
     public bool canMelee;
+    public float _combo;
+    public float _melee;
 
     private void Awake()
     {
@@ -58,6 +60,14 @@ public class GrannyAttackScript : MonoBehaviour
 
     private void Update()
     {
+        if (_melee <= 0) canMelee = true;
+        else canMelee = false;
+
+        _melee -= Time.deltaTime;
+        _combo -= Time.deltaTime;
+
+        if (_melee < 0) _melee = 0;
+
         if (_actions.Player.Attack.triggered)
         {
             if (_controller.zoomedIn)
@@ -101,36 +111,41 @@ public class GrannyAttackScript : MonoBehaviour
             aimDebug.position = rayCastHit.point;   
             bulletSpawn.LookAt(rayCastHit.point);
         }
+
+        _anim.SetBool("Melee", canMelee);
     }
 
     IEnumerator AttackMelee()
     {
+        _combo = comboTimer;
+        _melee = meleeTimer;
+
         if (comboID == 1)
         {
             comboID = 2;
             _anim.SetTrigger("Swing1");
             comboTimer = 1;
         }
-        else if (comboID == 2 && comboTimer > 0)
+        else if (comboID == 2 && _combo > 0)
         {
             comboID = 3;
             _anim.SetTrigger("Swing2");
             comboTimer = 1;
         }
 
-        else if (comboID == 3 && comboTimer > 0)
+        else if (comboID == 3 && _combo > 0)
         {
             comboID = 1;
             _anim.SetTrigger("Swing3");
         }
 
-        canMelee = false;
+        //canMelee = false;
         yield return new WaitForSeconds(.25f);
         hitSphere.SetActive(true);
         yield return new WaitForSeconds(.1f);
         hitSphere.SetActive(false);
-        yield return new WaitForSeconds(meleeTime);
-        canMelee = true;
+        yield return new WaitForSeconds(meleeTimer);
+        //canMelee = true;
     }
 
     public void AttackShoot()
